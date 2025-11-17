@@ -155,6 +155,20 @@ app.delete("/notes/:id", verifyToken, async (req, res) => {
   }
 });
 
+app.post("/auth/logout", (req, res) =>{
+  try {
+    res.cookie("token", "", {
+      httpOnly: true,
+      maxAge: 0,
+      sameSite: "none",
+      secure: true
+    })
+    res.status(200).json({msg: "Logout successfully"})
+  } catch (error) {
+    res.status(500).json({msg: "Logout failed",error})
+  }
+})
+
 app.listen(5000, () => {
   console.log("Server is running on 5000");
 });
