@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 function Create() {
   let [Note, setNote] = useState([]);
   let [text, setText] = useState("");
-  let [des, setdes] = useState("")
   let [editId, setEditId] = useState(null);
   let URL = import.meta.env.VITE_BACKEND_URL;
   async function fetchNotes() {
@@ -39,7 +38,7 @@ function Create() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text, des }),
+        body: JSON.stringify({ text }),
       });
 
       const result = await res.json();
@@ -47,38 +46,38 @@ function Create() {
       if (res.ok) {
         setNote([...Note, result.data]); // **Correct**
         setText("");
-        setdes("");
       }
     } catch (error) {
       console.log("Error Adding Notes", error);
     }
   }
 
-async function editNotes(id) {
-  try {
-    const res = await fetch(`${URL}/notes/${id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text, des }),
-    });
+  async function editNotes(id) {
+    try {
+      const res = await fetch(`${URL}/notes/${id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text }),
+      });
 
-    const result = await res.json();
+      const result = await res.json();
 
-    if (res.ok) {
-      setNote(
-        Note.map((e) => (e._id === editId ? result.data : e))
-      );
-      setText("");
-      setdes("");
-      setEditId(null);
+      if (res.ok) {
+        setNote(
+          Note.map((e) =>
+            e._id === editId ? { ...e, text: result.data.text } : e
+          )
+        );
+        setText("");
+        setEditId(null);
+      }
+    } catch (error) {
+      console.log("Error Editing Note", error);
     }
-  } catch (error) {
-    console.log("Error Editing Note", error);
   }
-} 
 
   async function deleteNotes(id) {
     try {
@@ -103,12 +102,6 @@ async function editNotes(id) {
         onChange={(e) => setText(e.target.value)}
       />
 
-       <input
-        type="text"
-        value={des}
-        onChange={(e) => setdes(e.target.value)}
-      />
-
       <button onClick={editId ? () => editNotes(editId) : AddNotes}>
         {editId ? "Update Note" : "Add Note"}
       </button>
@@ -118,7 +111,6 @@ async function editNotes(id) {
           {Note.map((notes) => (
             <li key={notes._id}>
               {notes.text}
-              {notes.des}
 
               <button
                 onClick={() => {
