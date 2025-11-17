@@ -20,6 +20,9 @@ const TodoSchema = mongoose.Schema({
     text: {
         type: String
     },
+    description:{
+        type: String
+    },
     userId: {
         type:mongoose.Schema.Types.ObjectId,
         ref: "jwt"

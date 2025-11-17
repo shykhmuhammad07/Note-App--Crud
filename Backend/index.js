@@ -94,10 +94,11 @@ app.post("/auth/login", async (req, res) => {
 
 app.post("/notes", verifyToken, async (req, res) => {
   try {
-    const { text } = req.body;
+    const { text, description } = req.body;
 
     const newTodo = await todoModel.create({
       text,
+      description,
       userId: req.userId,
     });
 
