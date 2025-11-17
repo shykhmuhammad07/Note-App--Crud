@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // agar tu Vite use kar raha hai
+    origin: "http://localhost:5173", 
     credentials: true,
   })
 );

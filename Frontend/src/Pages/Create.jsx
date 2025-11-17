@@ -4,10 +4,10 @@ function Create() {
   let [Note, setNote] = useState([]);
   let [text, setText] = useState("");
   let [editId, setEditId] = useState(null);
-
+  let URL = import.meta.env.VITE_BACKEND_URL;
   async function fetchNotes() {
     try {
-      const res = await fetch("http://localhost:5000/notes", {
+      const res = await fetch(`${URL}/notes`, {
         method: "GET",
         credentials: "include",
         headers: {
@@ -32,7 +32,7 @@ function Create() {
 
   async function AddNotes() {
     try {
-      const res = await fetch("http://localhost:5000/notes", {
+      const res = await fetch(`${URL}/notes`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -54,7 +54,7 @@ function Create() {
 
   async function editNotes(id) {
     try {
-      const res = await fetch(`http://localhost:5000/notes/${id}`, {
+      const res = await fetch(`${URL}/notes/${id}`, {
         method: "PATCH",
         credentials: "include",
         headers: {
@@ -81,7 +81,7 @@ function Create() {
 
   async function deleteNotes(id) {
     try {
-      const res = await fetch(`http://localhost:5000/notes/${id}`, {
+      const res = await fetch(`${URL}/notes/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

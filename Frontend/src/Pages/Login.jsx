@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  let URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     async function checkLogin() {
       try {
-        const res = await fetch("http://localhost:5000/auth/check", {
+        const res = await fetch(`${URL}/auth/check`, {
           method: "GET",
           credentials: "include",
         });
@@ -30,7 +31,7 @@ function Login() {
 
   async function getData(value) {
     try {
-      const res = await fetch("http://localhost:5000/auth/login", {
+      const res = await fetch(`${URL}/auth/login`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

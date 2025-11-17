@@ -6,10 +6,11 @@ import { useState } from "react";
 function Signup() {
   const navigate = useNavigate();
   let [loading, setLoading] = useState(true)
+  let URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     async function checkSignup() {
-       const res = await fetch("http://localhost:5000/auth/check", {
+       const res = await fetch(`${URL}/auth/check`, {
         method:"GET",
         credentials: "include"
       })
@@ -26,7 +27,7 @@ function Signup() {
   async function getData(value) {
     console.log("Data Values", value);
     try {
-      const res = await fetch("http://localhost:5000/auth/signup", {
+      const res = await fetch(`${URL}/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
