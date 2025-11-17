@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", 
+    origin: "https://note-app-crud-i4x4.vercel.app/", 
     credentials: true,
   })
 );
@@ -81,6 +81,8 @@ app.post("/auth/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
+      secure: true,
+      sameSite: "none",
       maxAge: 60 * 60 * 1000,
     });
 
