@@ -4,7 +4,6 @@ import Signup from '../Pages/Signup'
 import Login from '../Pages/Login'
 import Create from '../Pages/Create'
 import Navbar from '../Components/Navbar'
-import Home from '../Pages/Home'
 
 function AppRouter() {
   return (
@@ -12,8 +11,7 @@ function AppRouter() {
     <BrowserRouter>
     <Navbar />
     <Routes>
-      <Route path='/' element ={<Home />} />
-      <Route path='/landing' element ={<Home />} />
+      <Route path='/' element ={<Signup />} />
       <Route path='/signup' element ={<Signup />} />
       <Route path='/login' element ={<Login />} />
       <Route path='/create' element ={<Create />} />
