@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-const FRONTEND_URL = "https://note-app-crud-i4x4.vercel.app";
+const FRONTEND_URL = "https://note-app-crud-i4x4.vercel.app/";
 app.use(cors({
   origin: FRONTEND_URL,
   credentials: true,
