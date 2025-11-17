@@ -10,14 +10,12 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-
-const FRONTEND_URL = "https://note-app-crud-i4x4.vercel.app/";
-app.use(cors({
-  origin: FRONTEND_URL,
-  credentials: true,
-  methods: ["GET","POST","PATCH","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type","Authorization"]
-}));
+app.use(
+  cors({
+    origin: "https://note-app-crud-i4x4.vercel.app", 
+    credentials: true,
+  })
+);
 const SECRET = process.env.SECRET;
 
 const verifyToken = (req, res, next) => {
