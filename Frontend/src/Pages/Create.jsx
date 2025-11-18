@@ -10,7 +10,7 @@ function Create() {
 
   useEffect(() =>{
     async function checkUser() {
-      const res = await fetch(`${URL}auth/check`, {
+      const res = await fetch(`${URL}/auth/check`, {
         method: "GET",
         credentials: "include"
       })
