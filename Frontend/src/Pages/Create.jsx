@@ -23,7 +23,7 @@ function Create() {
   }
 
   checkUser();
-}, [URL, navigate]);
+}, []);
 
   
   async function fetchNotes() {
