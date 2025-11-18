@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Create() {
   let [Note, setNote] = useState([]);
   let [text, setText] = useState("");
   let [editId, setEditId] = useState(null);
+  const navigate = useNavigate()
   let URL = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() =>{
+    async function checkUser() {
+      const res = await fetch(`${URL}auth/check`, {
+        method: "GET",
+        credentials: "include"
+      })
+      const data = res.json()
+
+      if(!data.loggedIn) {
+        navigate('/login')
+      }
+    }
+    checkUser()
+  }, [])
   
   async function fetchNotes() {
     try {

@@ -11,12 +11,18 @@ function Navbar() {
   } 
 
   function logout() {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, {
+    try {
+          const res = fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, {
       method: "POST",
       credentials: "include"
-    }).then(() => {
-      naviagte("/login")
     })
+
+    if(res.ok){
+      naviagte("/login")
+    }
+    } catch (error) {
+      console.log("logout failed", error);  
+    }
   }
 
   return (
