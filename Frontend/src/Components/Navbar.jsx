@@ -6,7 +6,7 @@ function Navbar() {
   let location = useLocation()
   let naviagte = useNavigate()
 
-  if(location.pathname === "/login" || location.pathname === "/signup") {
+  if(location.pathname === '/' || location.pathname === "/login" || location.pathname === "/signup") {
     return null
   } 
 
