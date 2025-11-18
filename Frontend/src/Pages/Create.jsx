@@ -14,7 +14,7 @@ function Create() {
         method: "GET",
         credentials: "include"
       })
-      const data = res.json()
+      const data = await res.json()
 
       if(!data.loggedIn) {
         navigate('/login')
