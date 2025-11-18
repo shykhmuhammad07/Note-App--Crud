@@ -1,107 +1,85 @@
-// SignuForm.jsx - Fixed with proper form handling
 import React from 'react';
-
-const SignuForm = ({getData}) => {
-  const onFinish = (values) => {
-    getData(values);
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg">
-        <div>
-          <div className="mx-auto h-12 w-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg flex items-center justify-center">
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-            </svg>
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Join thousands of users organizing their thoughts
-          </p>
-        </div>
-        <form 
-          className="mt-8 space-y-6" 
-          onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const values = {
-              username: formData.get('username'),
-              email: formData.get('email'),
-              password: formData.get('password'),
-              remember: formData.get('remember') === 'on'
-            };
-            onFinish(values);
-          }}
+import { Button, Checkbox, Form, Input } from 'antd';
+const onFinishFailed = errorInfo => {
+  console.log('Failed:', errorInfo);
+};
+const SignuForm = ({getData}) => (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-md w-full space-y-8 bg-white rounded-2xl shadow-xl p-8">
+      <div className="text-center">
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Create Account</h2>
+        <p className="mt-2 text-sm text-gray-600">Join us and start creating notes</p>
+      </div>
+      <Form
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={getData}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        className="mt-8 space-y-6"
+        layout="vertical"
+      >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+          className="mb-4"
         >
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-300"
-                placeholder="Choose a username"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-300"
-                placeholder="Enter your email"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all duration-300"
-                placeholder="Create a password"
-              />
-            </div>
-          </div>
+          <Input 
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+            placeholder="Choose a username"
+          />
+        </Form.Item>
 
-          <div className="flex items-center">
-            <input
-              id="remember"
-              name="remember"
-              type="checkbox"
-              className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-            />
-            <label htmlFor="remember" className="ml-2 block text-sm text-gray-900">
-              Remember me
-            </label>
-          </div>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: 'Please input your email!' }]}
+          className="mb-4"
+        >
+          <Input 
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+            placeholder="Enter your email"
+          />
+        </Form.Item>
 
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all duration-300 shadow-lg"
-            >
-              Create Account
-            </button>
-          </div>
-        </form>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Please input your password!' }]}
+          className="mb-4"
+        >
+          <Input.Password 
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+            placeholder="Create a password"
+          />
+        </Form.Item>
+
+        <Form.Item name="remember" valuePropName="checked" className="mb-4">
+          <Checkbox className="text-indigo-600 focus:ring-indigo-500">
+            I agree to the terms and conditions
+          </Checkbox>
+        </Form.Item>
+
+        <Form.Item className="mb-0">
+          <Button 
+            type="primary" 
+            htmlType="submit"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
+          >
+            Create Account
+          </Button>
+        </Form.Item>
+      </Form>
+      <div className="text-center mt-4">
+        <p className="text-sm text-gray-600">
+          Already have an account?{' '}
+          <a href="/login" className="font-medium text-indigo-600 hover:text-indigo-500 transition duration-200">
+            Sign in
+          </a>
+        </p>
       </div>
     </div>
-  );
-};
-
+  </div>
+);
 export default SignuForm;

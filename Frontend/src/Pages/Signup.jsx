@@ -1,4 +1,3 @@
-// Signup.jsx - Fixed with better loading state
 import { useEffect } from "react";
 import SignupForm from "../Components/SignuForm";
 import { useNavigate } from "react-router-dom";
@@ -11,30 +10,25 @@ function Signup() {
 
   useEffect(() => {
     async function checkSignup() {
-      try {
-        const res = await fetch(`${URL}/auth/check`, {
-          method:"GET",
-          credentials: "include"
-        })
-        const data = await res.json()
-        
-        if(data.loggedIn){
-          navigate("/create")
-        }
-      } catch (err) {
-        console.log("Check signup error:", err);
-      } finally {
-        setLoading(false)
+       const res = await fetch(`${URL}/auth/check`, {
+        method:"GET",
+        credentials: "include"
+      })
+      const data = await res.json()
+      
+      if(data.loggedIn){
+        navigate("/create")
       }
+      setLoading(false)
     }
     checkSignup()
   }, [])
 
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-indigo-100">
       <div className="flex flex-col items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-        <p className="mt-4 text-gray-600">Loading...</p>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
+        <p className="text-gray-600">Checking authentication...</p>
       </div>
     </div>
   );
