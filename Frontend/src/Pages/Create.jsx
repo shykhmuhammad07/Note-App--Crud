@@ -8,20 +8,23 @@ function Create() {
   const navigate = useNavigate()
   let URL = import.meta.env.VITE_BACKEND_URL;
 
-  useEffect(() =>{
-    async function checkUser() {
-      const res = await fetch(`${URL}/auth/check`, {
-        method: "GET",
-        credentials: "include"
-      })
-      const data = await res.json()
+  useEffect(() => {
+  async function checkUser() {
+    const res = await fetch(`${URL}/auth/check`, {
+      method: "GET",
+      credentials: "include"
+    });
 
-      if(!data.loggedIn) {
-        navigate('/login')
-      }
+    const data = await res.json();   // <-- FIXED
+
+    if (!data.loggedIn) {
+      navigate("/login");
     }
-    checkUser()
-  }, [])
+  }
+
+  checkUser();
+}, []);
+
   
   async function fetchNotes() {
     try {
