@@ -10,12 +10,24 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+const allowedOrigins = [
+  "https://note-app-crud-i4x4.vercel.app",
+  "http://localhost:5173",
+];
 app.use(
   cors({
-    origin: "https://note-app-crud-i4x4.vercel.app", 
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // curl ya postman ke liye
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 const SECRET = process.env.SECRET;
 
 const verifyToken = (req, res, next) => {
@@ -42,7 +54,6 @@ app.get("/auth/check", (req, res) => {
     res.json({ loggedIn: false });
   }
 });
-
 
 app.get("/", (req, res) => {
   res.send(new Date().toLocaleString());
@@ -99,6 +110,7 @@ app.post("/notes", verifyToken, async (req, res) => {
     const newTodo = await todoModel.create({
       text,
       description,
+      createdAt: Date.now(),
       userId: req.userId,
     });
 
@@ -155,19 +167,19 @@ app.delete("/notes/:id", verifyToken, async (req, res) => {
   }
 });
 
-app.post("/auth/logout", (req, res) =>{
+app.post("/auth/logout", (req, res) => {
   try {
     res.cookie("token", "", {
       httpOnly: true,
       maxAge: 0,
       sameSite: "none",
-      secure: true
-    })
-    res.status(200).json({msg: "Logout successfully"})
+      secure: true,
+    });
+    res.status(200).json({ msg: "Logout successfully" });
   } catch (error) {
-    res.status(500).json({msg: "Logout failed",error})
+    res.status(500).json({ msg: "Logout failed", error });
   }
-})
+});
 
 app.listen(5000, () => {
   console.log("Server is running on 5000");
